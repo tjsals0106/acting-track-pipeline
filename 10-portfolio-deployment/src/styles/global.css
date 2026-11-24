@@ -81,7 +81,7 @@
 .prose-script > :not(h2, h2 ~ *) { @apply hidden; }
 .prose-script > h2:first-of-type { @apply mt-12; }
 .prose-script h2 {
-  @apply font-display font-light text-3xl tracking-tight mt-20 mb-6 border-t border-line pt-10;
+  @apply font-display font-light text-3xl tracking-tight mt-20 mb-6 border-t border-line pt-10 scroll-mt-20;
 }
 .prose-script h3 { @apply font-mono text-xs uppercase tracking-[0.25em] text-brass mt-12; }
 .prose-script p { @apply leading-relaxed; }
