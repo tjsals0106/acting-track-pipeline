@@ -7,6 +7,7 @@ export default defineConfig({
   base: process.env.BASE_PATH ?? '/acting-track-pipeline',
   output: 'static',
   trailingSlash: 'ignore',
+  markdown: { syntaxHighlight: false },
   vite: {
     plugins: [tailwindcss()],
     server: { fs: { allow: ['..'] } },

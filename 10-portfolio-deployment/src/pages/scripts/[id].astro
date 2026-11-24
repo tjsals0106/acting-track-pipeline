@@ -1,11 +1,11 @@
 ---
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import { scriptMeta } from '../../lib/scripts';
+import { scriptMeta, sortScripts } from '../../lib/scripts';
 import { url } from '../../lib/url';
 
 export async function getStaticPaths() {
-  const scripts = (await getCollection('scripts')).sort((a, b) => a.id.localeCompare(b.id));
+  const scripts = sortScripts(await getCollection('scripts'));
   return scripts.map((entry, i) => ({
     params: { id: entry.id },
     props: { entry, next: scripts[(i + 1) % scripts.length] },
@@ -23,6 +23,8 @@ const nextMeta = scriptMeta(next);
 const { Content, headings } = await render(entry);
 const toc = headings.filter((h) => h.depth === 2);
 const facts = Object.entries(meta.fields);
+const linkify = (text: string) =>
+  text.split(/(https?:\/\/[^\s,)]+)/).map((part, i) => ({ part, href: i % 2 ? part.replace(/\.$/, '') : null }));
 ---
 
 <Base title={meta.title} description={meta.situation ?? meta.title}>
@@ -58,11 +60,29 @@ const facts = Object.entries(meta.fields);
             {toc.map((h) => (
               <li><a href={`#${h.slug}`} class="hover:text-bone">{h.text}</a></li>
             ))}
+            {meta.notes.length > 0 && <li><a href="#source-rights" class="hover:text-bone">Source &amp; rights</a></li>}
           </ol>
         </nav>
       </aside>
       <div class="prose-script md:col-span-8 md:col-start-4 lg:col-span-7 lg:col-start-4">
         <Content />
+        {meta.notes.length > 0 && (
+          <section aria-labelledby="source-rights">
+            <h2 id="source-rights">Source &amp; rights</h2>
+            <dl class="not-prose space-y-6">
+              {meta.notes.map((n) => (
+                <div>
+                  <dt class="eyebrow !text-smoke">{n.label}</dt>
+                  <dd class="mt-2 text-sm leading-relaxed text-ash [overflow-wrap:anywhere]">
+                    {linkify(n.text).map(({ part, href }) =>
+                      href ? <a href={href} class="text-brass underline underline-offset-4" rel="noopener">{part}</a> : part,
+                    )}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        )}
       </div>
     </div>
 

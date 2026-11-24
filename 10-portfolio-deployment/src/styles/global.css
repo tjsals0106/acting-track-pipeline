@@ -98,8 +98,14 @@
 .prose-script h3 { @apply font-mono text-xs uppercase tracking-[0.25em] text-brass mt-12; }
 .prose-script p { @apply leading-relaxed; }
 .prose-script ul { @apply text-base; }
-.prose-script #text + p,
-.prose-script #text ~ p:not(#beat-analysis ~ p) {
+.prose-script #text ~ p:not(#text ~ h2 ~ p) {
   @apply font-display text-2xl leading-[1.6] font-light;
 }
 .prose-script table { @apply font-mono text-xs; }
+.prose-script pre {
+  @apply m-0 mb-6 rounded-none border-l border-brass/60 bg-transparent py-1 pr-0 pl-6 font-display text-xl leading-[1.7] font-light text-bone md:text-2xl;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.prose-script pre code { @apply bg-transparent p-0 font-[inherit] text-inherit; white-space: inherit; }
+.prose-script li { overflow-wrap: anywhere; }
