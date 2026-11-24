@@ -2,43 +2,11 @@
 
 - Character: Juliet
 - Situation: Alone in her father's house, waiting for night and for Romeo after their secret marriage.
-- Word count: about 241
-- Source: William Shakespeare, *Romeo and Juliet*, Act III, Scene II. Text from Project Gutenberg eBook #1513 (https://www.gutenberg.org/ebooks/1513), the volunteer-produced, modernized-spelling edition, copied unchanged.
-- Rights: Shakespeare died in 1616, so the play is out of copyright in Korea and the US. The text is Project Gutenberg's volunteer edition (modernized spelling), which Project Gutenberg lists as public domain in the US; its status as an edition in Korea was not separately checked. Text copied unchanged. No translation.
+- Source: William Shakespeare, *Romeo and Juliet*, Act III, Scene II.
+- Where to read: [Project Gutenberg eBook #1513](https://www.gutenberg.org/ebooks/1513). Find the scene above and find the speech containing the title words.
+- Rights: link only. The play (Shakespeare, d. 1616) is out of copyright, but this archive does not reproduce the text, because the rights status of the modernized digital edition outside the US was not verified. Description below was written for this archive.
 - Status: Backlog
 
-## Text
+## What the speech does
 
-```text
-Gallop apace, you fiery-footed steeds,
-Towards Phoebus’ lodging. Such a waggoner
-As Phaeton would whip you to the west
-And bring in cloudy night immediately.
-Spread thy close curtain, love-performing night,
-That runaway’s eyes may wink, and Romeo
-Leap to these arms, untalk’d of and unseen.
-Lovers can see to do their amorous rites
-By their own beauties: or, if love be blind,
-It best agrees with night. Come, civil night,
-Thou sober-suited matron, all in black,
-And learn me how to lose a winning match,
-Play’d for a pair of stainless maidenhoods.
-Hood my unmann’d blood, bating in my cheeks,
-With thy black mantle, till strange love, grow bold,
-Think true love acted simple modesty.
-Come, night, come Romeo; come, thou day in night;
-For thou wilt lie upon the wings of night
-Whiter than new snow upon a raven’s back.
-Come gentle night, come loving black-brow’d night,
-Give me my Romeo, and when I shall die,
-Take him and cut him out in little stars,
-And he will make the face of heaven so fine
-That all the world will be in love with night,
-And pay no worship to the garish sun.
-O, I have bought the mansion of a love,
-But not possess’d it; and though I am sold,
-Not yet enjoy’d. So tedious is this day
-As is the night before some festival
-To an impatient child that hath new robes
-And may not wear them.
-```
+Juliet, alone, wills the day to end so night and Romeo will come. Impatient, bodily, and hopeful, with a young woman's private joy that she must hide from everyone else.
