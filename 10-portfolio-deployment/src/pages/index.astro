@@ -18,6 +18,7 @@ const scripts = (await getCollection('scripts')).sort((a, b) => a.id.localeCompa
 
   <section id="reels" class="mx-auto max-w-7xl scroll-mt-24 px-6 py-24 md:px-10 md:py-32" aria-labelledby="reels-title">
     <SectionHeader
+      id="reels-title"
       index="01"
       eyebrow="Monologue reel"
       title="Three registers, one take each."
@@ -31,6 +32,7 @@ const scripts = (await getCollection('scripts')).sort((a, b) => a.id.localeCompa
   <section id="scripts" class="border-t border-line bg-ink-2/60 scroll-mt-24" aria-labelledby="scripts-title">
     <div class="mx-auto max-w-7xl px-6 py-24 md:px-10 md:py-32">
       <SectionHeader
+        id="scripts-title"
         index="02"
         eyebrow="Script archive"
         title="The text behind the take."
@@ -45,6 +47,7 @@ const scripts = (await getCollection('scripts')).sort((a, b) => a.id.localeCompa
 
   <section id="voice" class="mx-auto max-w-7xl scroll-mt-24 px-6 py-24 md:px-10 md:py-32" aria-labelledby="voice-title">
     <SectionHeader
+      id="voice-title"
       index="03"
       eyebrow="Voice & diction"
       title="Breath, phonation, articulation."
