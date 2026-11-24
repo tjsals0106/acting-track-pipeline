@@ -1,0 +1,22 @@
+---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<header class="fixed inset-x-0 top-0 z-30 backdrop-blur bg-paper/70 dark:bg-ink/70">
+  <nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4 text-[10px] uppercase tracking-[0.15em] sm:text-xs sm:tracking-[0.2em]">
+    <a href={`${base}/`} class="hidden font-serif text-lg normal-case tracking-normal sm:block">Portfolio</a>
+    <div class="flex w-full items-center justify-between gap-3 sm:w-auto sm:justify-start sm:gap-6">
+      <a href={`${base}/#reel`} class="hover:text-ember">Reel</a>
+      <a href={`${base}/#scripts`} class="hover:text-ember">Scripts</a>
+      <a href={`${base}/#voice`} class="hover:text-ember">Voice</a>
+      <a href={`${base}/#contact`} class="hover:text-ember">Contact</a>
+      <button id="theme-toggle" type="button" aria-label="Toggle light or dark theme" class="border border-current/30 px-2 py-1 hover:border-ember hover:text-ember">Theme</button>
+    </div>
+  </nav>
+</header>
+<script>
+  document.getElementById('theme-toggle')?.addEventListener('click', () => {
+    const root = document.documentElement;
+    const dark = root.classList.toggle('dark');
+    try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch {}
+  });
+</script>

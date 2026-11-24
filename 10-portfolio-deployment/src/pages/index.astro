@@ -1,0 +1,75 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import ReelCard from '../components/ReelCard.astro';
+import AudioPlayer from '../components/AudioPlayer.astro';
+import { profile, reels, audioReel } from '../data/profile';
+import { loadScripts } from '../lib/scripts';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const scripts = loadScripts();
+---
+<Base title={`${profile.name} · ${profile.role}`}>
+  <Nav />
+  <main>
+    <Hero />
+
+    <section id="reel" class="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
+      <h2 class="mb-12 font-serif text-4xl sm:text-5xl">Monologue reel</h2>
+      <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+        {reels.map((r) => <ReelCard {...r} />)}
+      </div>
+    </section>
+
+    <section id="scripts" class="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
+      <h2 class="mb-3 font-serif text-4xl sm:text-5xl">Script archive</h2>
+      <p class="mb-12 max-w-xl text-sm opacity-60">Original practice monologues from the study track, with beat analysis.</p>
+      <ul class="divide-y divide-current/10 border-y border-current/10">
+        {scripts.map((s, i) => (
+          <li>
+            <a href={`${base}/scripts/${s.slug}/`} class="group flex flex-col gap-2 py-6 sm:flex-row sm:items-baseline sm:gap-8">
+              <span class="w-10 text-xs tabular-nums opacity-40">{String(i + 1).padStart(2, '0')}</span>
+              <span class="flex-1 font-serif text-2xl transition group-hover:text-ember">{s.title}</span>
+              <span class="text-xs opacity-60">{s.meta.find((m) => m.startsWith('Character'))?.replace('Character: ', '')}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section id="voice" class="mx-auto max-w-4xl scroll-mt-20 px-6 py-24">
+      <h2 class="mb-3 font-serif text-4xl sm:text-5xl">Voice and diction</h2>
+      <p class="mb-10 max-w-xl text-sm opacity-60">Short voice logs and diction drills.</p>
+      <AudioPlayer tracks={audioReel} />
+    </section>
+
+    <section id="contact" class="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
+      <h2 class="mb-8 font-serif text-4xl sm:text-5xl">Contact</h2>
+      <ul class="grid gap-4 text-sm sm:grid-cols-2">
+        {profile.links.map((l) => (
+          <li class="flex items-baseline justify-between border-b border-current/10 pb-3">
+            <span class="opacity-60">{l.note}</span>
+            {l.href ? <a class="hover:text-ember" href={l.href} rel="noopener">{l.label}</a> : <span class="opacity-40">{l.label}: placeholder</span>}
+          </li>
+        ))}
+      </ul>
+    </section>
+  </main>
+  <footer class="px-6 py-10 text-center text-xs opacity-40">© {new Date().getFullYear()} {profile.name}</footer>
+
+  <script>
+    document.querySelectorAll<HTMLElement>('.reel').forEach((el) => {
+      const id = el.dataset.id;
+      if (!id) return;
+      el.querySelector('.reel-play')?.addEventListener('click', () => {
+        const f = document.createElement('iframe');
+        f.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+        f.title = el.dataset.title || 'Video';
+        f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+        f.allowFullscreen = true;
+        f.className = 'absolute inset-0 h-full w-full';
+        el.replaceChildren(f);
+      });
+    });
+  </script>
+</Base>

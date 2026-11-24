@@ -1,0 +1,46 @@
+---
+interface Track { title: string; note: string; src: string }
+interface Props { tracks: Track[] }
+const { tracks } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const resolve = (s: string) => (s ? (/^https?:/.test(s) ? s : `${base}/${s.replace(/^\//, '')}`) : '');
+---
+<ul class="divide-y divide-current/10 border-y border-current/10">
+  {tracks.map((t) => (
+    <li class="audio-track flex items-center gap-4 py-4" data-src={resolve(t.src)}>
+      <button type="button" class="audio-btn grid h-10 w-10 shrink-0 place-items-center rounded-full border border-current/40 text-sm hover:border-ember hover:text-ember disabled:cursor-not-allowed disabled:opacity-30" aria-label={`Play ${t.title}`} disabled={!t.src}>▶</button>
+      <div class="min-w-0 flex-1">
+        <p class="truncate font-serif text-lg">{t.title}</p>
+        <p class="truncate text-xs opacity-60">{t.src ? t.note : 'No recording yet. ' + t.note}</p>
+      </div>
+      <input type="range" class="audio-seek hidden w-28 accent-[#c9a36b] sm:block" min="0" max="100" value="0" step="0.1" aria-label="Seek" disabled={!t.src} />
+      <span class="audio-time w-20 text-right text-xs tabular-nums opacity-60">0:00</span>
+    </li>
+  ))}
+</ul>
+<script>
+  const fmt = (s: number) => (isFinite(s) ? `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}` : '0:00');
+  let current: HTMLAudioElement | null = null;
+  let currentBtn: HTMLButtonElement | null = null;
+  document.querySelectorAll<HTMLElement>('.audio-track').forEach((row) => {
+    const src = row.dataset.src;
+    if (!src) return;
+    const btn = row.querySelector<HTMLButtonElement>('.audio-btn')!;
+    const seek = row.querySelector<HTMLInputElement>('.audio-seek')!;
+    const time = row.querySelector<HTMLElement>('.audio-time')!;
+    const audio = new Audio();
+    audio.preload = 'none';
+    audio.src = src;
+    btn.addEventListener('click', () => {
+      if (current && current !== audio) { current.pause(); if (currentBtn) currentBtn.textContent = '▶'; }
+      if (audio.paused) { audio.play(); btn.textContent = '❚❚'; current = audio; currentBtn = btn; }
+      else { audio.pause(); btn.textContent = '▶'; }
+    });
+    audio.addEventListener('timeupdate', () => {
+      if (audio.duration) seek.value = String((audio.currentTime / audio.duration) * 100);
+      time.textContent = `${fmt(audio.currentTime)} / ${fmt(audio.duration)}`;
+    });
+    audio.addEventListener('ended', () => { btn.textContent = '▶'; });
+    seek.addEventListener('input', () => { if (audio.duration) audio.currentTime = (Number(seek.value) / 100) * audio.duration; });
+  });
+</script>

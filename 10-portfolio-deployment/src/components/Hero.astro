@@ -1,0 +1,26 @@
+---
+import { profile } from '../data/profile';
+---
+<section class="relative flex min-h-screen items-end px-6 pb-20 pt-32">
+  <div class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_30%_20%,rgba(201,163,107,0.18),transparent_55%)] dark:opacity-100 opacity-40"></div>
+  <div class="mx-auto w-full max-w-6xl">
+    <p class="mb-6 text-xs uppercase tracking-[0.35em] text-ember">{profile.role} · {profile.based}</p>
+    <h1 class="font-serif text-6xl leading-[0.95] sm:text-8xl md:text-9xl">{profile.name}</h1>
+    <p class="mt-8 max-w-2xl font-serif text-2xl italic opacity-90 sm:text-3xl">{profile.headline}</p>
+    <p class="mt-6 max-w-xl text-sm leading-7 opacity-70">{profile.bio}</p>
+    <dl class="mt-10 grid max-w-2xl grid-cols-1 gap-6 text-sm sm:grid-cols-3">
+      {profile.details.map((d) => (
+        <div><dt class="text-xs uppercase tracking-[0.2em] opacity-50">{d.label}</dt><dd class="mt-1">{d.value}</dd></div>
+      ))}
+    </dl>
+    <div class="mt-12 flex flex-wrap gap-3 text-xs uppercase tracking-[0.2em]">
+      {profile.links.map((l) =>
+        l.href ? (
+          <a href={l.href} class="border border-current/40 px-4 py-3 hover:border-ember hover:text-ember" rel="noopener">{l.label}</a>
+        ) : (
+          <span class="border border-dashed border-current/25 px-4 py-3 opacity-50" title="Placeholder, add a link in src/data/profile.ts">{l.label} (placeholder)</span>
+        )
+      )}
+    </div>
+  </div>
+</section>
