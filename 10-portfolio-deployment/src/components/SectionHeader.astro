@@ -1,0 +1,18 @@
+---
+interface Props {
+  index: string;
+  eyebrow: string;
+  title: string;
+  lede?: string;
+}
+const { index, eyebrow, title, lede } = Astro.props;
+---
+
+<div class="mb-12 grid gap-6 md:mb-16 md:grid-cols-12">
+  <p class="eyebrow md:col-span-3"><span class="text-brass">{index}</span> / {eyebrow}</p>
+  <div class="md:col-span-9">
+    <h2 class="font-display text-4xl font-light tracking-tight md:text-6xl">{title}</h2>
+    {lede && <p class="mt-5 max-w-2xl text-ash leading-relaxed">{lede}</p>}
+    <slot />
+  </div>
+</div>

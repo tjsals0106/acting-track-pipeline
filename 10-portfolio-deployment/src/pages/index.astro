@@ -1,0 +1,57 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import ReelCard from '../components/ReelCard.astro';
+import ScriptCard from '../components/ScriptCard.astro';
+import AudioPlayer from '../components/AudioPlayer.astro';
+import { reels } from '../data/reels';
+import { audioTakes } from '../data/audio';
+import { url } from '../lib/url';
+
+const scripts = (await getCollection('scripts')).sort((a, b) => a.id.localeCompare(b.id));
+---
+
+<Base>
+  <Hero />
+
+  <section id="reels" class="mx-auto max-w-7xl scroll-mt-24 px-6 py-24 md:px-10 md:py-32" aria-labelledby="reels-title">
+    <SectionHeader
+      index="01"
+      eyebrow="Monologue reel"
+      title="Three registers, one take each."
+      lede="Short self-tapes from the daily practice. Each piece is cut to hold a single objective and a single turn."
+    />
+    <div class="grid gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-3">
+      {reels.map((reel, i) => <ReelCard reel={reel} index={i} />)}
+    </div>
+  </section>
+
+  <section id="scripts" class="border-t border-line bg-ink-2/60 scroll-mt-24" aria-labelledby="scripts-title">
+    <div class="mx-auto max-w-7xl px-6 py-24 md:px-10 md:py-32">
+      <SectionHeader
+        index="02"
+        eyebrow="Script archive"
+        title="The text behind the take."
+        lede="Original practice monologues with spine, beat analysis, and the physical and vocal choices for each run."
+      />
+      <div class="border-b border-line">
+        {scripts.map((entry, i) => <ScriptCard entry={entry} index={i} />)}
+      </div>
+      <a href={url('/scripts/')} class="eyebrow mt-10 inline-block underline decoration-line underline-offset-8 hover:text-brass">Open the archive →</a>
+    </div>
+  </section>
+
+  <section id="voice" class="mx-auto max-w-7xl scroll-mt-24 px-6 py-24 md:px-10 md:py-32" aria-labelledby="voice-title">
+    <SectionHeader
+      index="03"
+      eyebrow="Voice & diction"
+      title="Breath, phonation, articulation."
+      lede="Raw takes from the vocal routine. Slow them down to hear the consonants."
+    />
+    <div class="border-b border-line md:ml-[25%]">
+      {audioTakes.map((take, i) => <AudioPlayer take={take} index={i} />)}
+    </div>
+  </section>
+</Base>

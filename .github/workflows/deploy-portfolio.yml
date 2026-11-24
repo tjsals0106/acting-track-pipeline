@@ -1,0 +1,72 @@
+name: Deploy portfolio
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '10-portfolio-deployment/**'
+      - '01-monologue-scripts/**'
+      - '.github/workflows/deploy-portfolio.yml'
+  pull_request:
+    paths:
+      - '10-portfolio-deployment/**'
+      - '01-monologue-scripts/**'
+      - '.github/workflows/deploy-portfolio.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-portfolio-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: 10-portfolio-deployment
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: 10-portfolio-deployment/package-lock.json
+
+      - run: npm ci
+
+      - name: Build
+        run: npm run build
+        env:
+          SITE_URL: https://${{ github.repository_owner }}.github.io
+          BASE_PATH: /${{ github.event.repository.name }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: portfolio-dist
+          path: 10-portfolio-deployment/dist
+          retention-days: 7
+
+  deploy:
+    needs: build
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: portfolio-dist
+          path: dist
+
+      - name: Publish to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: gh-pages
+          force_orphan: true
+          commit_message: 'deploy: portfolio ${{ github.sha }}'

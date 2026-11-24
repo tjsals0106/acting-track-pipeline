@@ -1,0 +1,11 @@
+---
+import { profile } from '../data/profile';
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-line">
+  <div class="mx-auto flex max-w-7xl flex-col gap-2 px-6 py-10 text-xs text-smoke md:flex-row md:justify-between md:px-10">
+    <p class="font-mono uppercase tracking-[0.25em]">© {year} {profile.name}</p>
+    <p class="font-mono uppercase tracking-[0.25em]">Built from the acting track pipeline</p>
+  </div>
+</footer>

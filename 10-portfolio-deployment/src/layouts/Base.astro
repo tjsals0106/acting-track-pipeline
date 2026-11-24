@@ -1,0 +1,41 @@
+---
+import '@fontsource-variable/fraunces';
+import '@fontsource-variable/inter';
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { profile } from '../data/profile';
+import { url } from '../lib/url';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description = profile.intro } = Astro.props;
+const pageTitle = title ? `${title} — ${profile.name}` : `${profile.name} — ${profile.role}`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b0b0c" />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <link rel="icon" type="image/svg+xml" href={url('/favicon.svg')} />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <title>{pageTitle}</title>
+  </head>
+  <body class="grain min-h-screen">
+    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 bg-bone text-ink px-3 py-2">Skip to content</a>
+    <Nav />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

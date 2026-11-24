@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import ScriptCard from '../../components/ScriptCard.astro';
+
+const scripts = (await getCollection('scripts')).sort((a, b) => a.id.localeCompare(b.id));
+---
+
+<Base title="Script archive" description="Original practice monologues with beat analysis.">
+  <section class="mx-auto max-w-7xl px-6 pt-36 pb-24 md:px-10 md:pt-44 md:pb-32">
+    <SectionHeader
+      index="02"
+      eyebrow="Script archive"
+      title="Monologue scripts"
+      lede={`${scripts.length} pieces from 01-monologue-scripts. Each one carries its spine, beats, and run log.`}
+    />
+    <div class="border-b border-line">
+      {scripts.map((entry, i) => <ScriptCard entry={entry} index={i} />)}
+    </div>
+  </section>
+</Base>

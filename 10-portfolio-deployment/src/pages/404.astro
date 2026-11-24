@@ -1,0 +1,12 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../lib/url';
+---
+
+<Base title="Not found">
+  <section class="mx-auto flex min-h-[70vh] max-w-7xl flex-col justify-center px-6 pt-32 md:px-10">
+    <p class="eyebrow">Error 404</p>
+    <h1 class="mt-6 font-display text-6xl font-light tracking-tight md:text-8xl">Cut. Wrong mark.</h1>
+    <a href={url('/')} class="eyebrow mt-10 hover:text-brass">← Back to the top</a>
+  </section>
+</Base>

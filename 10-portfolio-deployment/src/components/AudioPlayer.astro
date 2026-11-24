@@ -1,0 +1,139 @@
+---
+import type { AudioTake } from '../data/audio';
+
+interface Props {
+  take: AudioTake;
+  index: number;
+}
+
+const { take, index } = Astro.props;
+const num = String(index + 1).padStart(2, '0');
+const pending = !take.src;
+---
+
+<audio-player class="group grid grid-cols-[auto_1fr] items-center gap-x-5 gap-y-3 border-t border-line py-6 md:grid-cols-[3rem_auto_1fr_auto] md:gap-x-8" data-pending={pending ? '' : undefined}>
+  <span class="hidden font-mono text-xs text-smoke md:block">{num}</span>
+  <button
+    type="button"
+    data-toggle
+    disabled={pending}
+    aria-label={`Play ${take.title}`}
+    class="flex h-12 w-12 items-center justify-center rounded-full border border-line text-bone transition enabled:hover:border-brass enabled:hover:text-brass disabled:cursor-not-allowed disabled:opacity-40"
+  >
+    <svg data-icon-play viewBox="0 0 24 24" class="ml-0.5 h-4 w-4 fill-current" aria-hidden="true"><path d="M7 4.5v15l13-7.5z" /></svg>
+    <svg data-icon-pause viewBox="0 0 24 24" class="hidden h-4 w-4 fill-current" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z" /></svg>
+  </button>
+  <div class="min-w-0">
+    <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+      <h3 class="font-display text-xl font-light tracking-tight">{take.title}</h3>
+      <time datetime={take.date} class="font-mono text-[0.65rem] tracking-[0.2em] text-smoke">{take.date}</time>
+    </div>
+    <p class="mt-1 text-sm text-ash">{take.focus}</p>
+    <div class="mt-4 flex items-center gap-4">
+      <input
+        type="range"
+        data-seek
+        min="0"
+        max="1000"
+        value="0"
+        step="1"
+        disabled={pending}
+        aria-label={`Seek ${take.title}`}
+        class="seek h-px w-full cursor-pointer appearance-none bg-line disabled:cursor-not-allowed"
+      />
+      <span data-time class="shrink-0 font-mono text-[0.7rem] tabular-nums text-ash">{pending ? 'link pending' : '0:00 / --:--'}</span>
+    </div>
+  </div>
+  <button
+    type="button"
+    data-rate
+    disabled={pending}
+    aria-label="Playback speed"
+    class="col-start-2 justify-self-start font-mono text-[0.7rem] tracking-[0.2em] text-ash transition enabled:hover:text-brass disabled:opacity-40 md:col-start-auto md:justify-self-end"
+  >1.0×</button>
+  {!pending && <audio preload="metadata" src={take.src}></audio>}
+</audio-player>
+
+<style>
+  .seek {
+    background: linear-gradient(to right, var(--color-brass) var(--p, 0%), var(--color-line) var(--p, 0%));
+  }
+  .seek::-webkit-slider-thumb {
+    appearance: none;
+    width: 10px;
+    height: 10px;
+    border-radius: 9999px;
+    background: var(--color-bone);
+  }
+  .seek::-moz-range-thumb {
+    width: 10px;
+    height: 10px;
+    border: 0;
+    border-radius: 9999px;
+    background: var(--color-bone);
+  }
+</style>
+
+<script>
+  const RATES = [1, 0.75, 0.5, 1.25];
+  const fmt = (s: number) => {
+    if (!Number.isFinite(s)) return '--:--';
+    const m = Math.floor(s / 60);
+    return `${m}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+  };
+
+  class AudioPlayer extends HTMLElement {
+    connectedCallback() {
+      const audio = this.querySelector('audio');
+      if (!audio) return;
+      const toggle = this.querySelector<HTMLButtonElement>('[data-toggle]')!;
+      const seek = this.querySelector<HTMLInputElement>('[data-seek]')!;
+      const time = this.querySelector<HTMLElement>('[data-time]')!;
+      const rate = this.querySelector<HTMLButtonElement>('[data-rate]')!;
+      const play = this.querySelector('[data-icon-play]')!;
+      const pause = this.querySelector('[data-icon-pause]')!;
+      let seeking = false;
+
+      const render = () => {
+        const p = audio.duration ? audio.currentTime / audio.duration : 0;
+        if (!seeking) seek.value = String(Math.round(p * 1000));
+        seek.style.setProperty('--p', `${(Number(seek.value) / 10).toFixed(1)}%`);
+        time.textContent = `${fmt(audio.currentTime)} / ${fmt(audio.duration)}`;
+      };
+      const setPlaying = (on: boolean) => {
+        play.classList.toggle('hidden', on);
+        pause.classList.toggle('hidden', !on);
+        toggle.setAttribute('aria-pressed', String(on));
+      };
+
+      toggle.addEventListener('click', () => {
+        if (audio.paused) {
+          document.querySelectorAll('audio').forEach((a) => a !== audio && a.pause());
+          void audio.play();
+        } else audio.pause();
+      });
+      seek.addEventListener('input', () => {
+        seeking = true;
+        seek.style.setProperty('--p', `${Number(seek.value) / 10}%`);
+      });
+      seek.addEventListener('change', () => {
+        if (audio.duration) audio.currentTime = (Number(seek.value) / 1000) * audio.duration;
+        seeking = false;
+      });
+      rate.addEventListener('click', () => {
+        const next = RATES[(RATES.indexOf(audio.playbackRate) + 1) % RATES.length];
+        audio.playbackRate = next;
+        rate.textContent = `${next.toFixed(2).replace(/0$/, '')}×`;
+      });
+      audio.addEventListener('play', () => setPlaying(true));
+      audio.addEventListener('pause', () => setPlaying(false));
+      audio.addEventListener('ended', () => setPlaying(false));
+      audio.addEventListener('timeupdate', render);
+      audio.addEventListener('loadedmetadata', render);
+      audio.addEventListener('error', () => {
+        time.textContent = 'unavailable';
+      });
+    }
+  }
+  if (!customElements.get('audio-player')) customElements.define('audio-player', AudioPlayer);
+</script>
