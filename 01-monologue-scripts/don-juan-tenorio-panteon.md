@@ -21,17 +21,17 @@ si buena vida os quité,
 buena sepultura os di.
 Magnifica es en verdad
 la idea del tal panteón!
-Y . siento que el corazón
+Y siento que el corazón
 me halaga esta soledad.
 ¡Hermosa noche!.... ¡Ay de mí!
 ¡Cuántas como ésta tan puras
 en infames aventuras
 desatinado perdí!
-¡•Cuántas al mismo fulgor
+¡Cuántas al mismo fulgor
 de esa luna transparente,
 arranqué á algún inocente
 la existencia ó el honor!
-Si; después de tantos años
+Sí; después de tantos años
 cuyos recuerdos espantan,
 siento que aqui se levantan
 pensamientos en mi extraños.
@@ -63,7 +63,6 @@ Inocente doña Inés,
 cuya hermosa juventud
 encerró en el ataúd
 quien llorando está á tus pies;
-í
 si de esa piedra á través
 puedes mirar la amargura
 del alma que tu hermosura
@@ -77,7 +76,7 @@ y anhelé su santo Edén.
 Si; aun hoy mismo en ti también
 mi esperanza se asegura,
 y oigo una voz que murmura
-en derredor de don J uan
+en derredor de don Juan
 palabras con que su afán
 se calma en tu sepultura.
 ¡Oh, doña Inés de mi vida!
@@ -93,7 +92,7 @@ llorando en tu sepultura.
 Este mármol sepulcral
 adormece mi vigor,
 y sentir creo en redor
-un sér Sobrenatural.
+un ser sobrenatural.
 Mas... ¡cielos! ¡El pedestal
 no mantiene su escultura!
 ¿Qué es esto? ¿Aquella figura
