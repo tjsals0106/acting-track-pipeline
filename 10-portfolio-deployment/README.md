@@ -20,10 +20,10 @@ Live URL: https://tjsals0106.github.io/acting-track-pipeline/
 |---|---|
 | Name, headline, representation, contact links | `src/data/profile.ts` |
 | Monologue reels (paste any YouTube link or ID) | `src/data/reels.ts` |
-| Voice and diction takes (direct audio file URL) | `src/data/audio.ts` |
+| Voice and diction takes (audio URL, or a file in `public/audio/` referenced as `audio/<file>`) | `src/data/audio.ts` |
 | Script archive | `01-monologue-scripts/*.md` (read at build time; `README.md` and `template.md` are skipped) |
 
-Empty `youtube` or `src` values render as "in edit" or "link pending". Keep media in cloud storage and store only links here.
+Every value in `src/data/profile.ts` is a placeholder. Empty links, `youtube`, or `src` values render as placeholders, "in edit", or "link pending". The site is dark by default; the nav toggle switches to light and remembers the choice.
 
 ### Commands
 

@@ -1,9 +1,10 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-display: 'Fraunces Variable', ui-serif, Georgia, serif;
-  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Fraunces Variable', ui-serif, Georgia, 'Noto Serif KR', serif;
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, 'Noto Sans KR', sans-serif;
   --font-mono: ui-monospace, 'SFMono-Regular', Menlo, monospace;
 
   --color-ink: #0b0b0c;
@@ -20,6 +21,17 @@
 @layer base {
   :root {
     color-scheme: dark;
+  }
+  :root:not(.dark) {
+    color-scheme: light;
+    --color-ink: #f3efe8;
+    --color-ink-2: #ebe6dd;
+    --color-ink-3: #e2dcd1;
+    --color-line: #d4cdc1;
+    --color-bone: #16151a;
+    --color-ash: #5c574f;
+    --color-smoke: #7a746b;
+    --color-brass: #8a6a2f;
   }
   html {
     @apply bg-ink text-bone font-sans antialiased;

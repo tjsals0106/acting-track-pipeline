@@ -44,6 +44,7 @@ import { profile } from '../data/profile';
         <ul class="flex flex-wrap gap-x-6 gap-y-2">
           {profile.links.map((l) => (
             <li>
+              {l.href ? (
               <a
                 href={l.href}
                 class="group inline-flex items-center gap-2 text-sm text-bone underline decoration-line underline-offset-4 transition hover:decoration-brass"
@@ -51,6 +52,9 @@ import { profile } from '../data/profile';
               >
                 {l.label}<span class="text-ash transition group-hover:translate-x-0.5 group-hover:text-brass" aria-hidden="true">↗</span>
               </a>
+              ) : (
+                <span class="text-sm text-smoke" title="Placeholder: add a link in src/data/profile.ts">{l.label} (placeholder)</span>
+              )}
             </li>
           ))}
         </ul>

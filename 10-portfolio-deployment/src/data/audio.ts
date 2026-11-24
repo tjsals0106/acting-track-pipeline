@@ -6,8 +6,8 @@ export interface AudioTake {
 }
 
 /**
- * Voice and diction takes. Keep audio in cloud storage (per the repo rules) and paste a direct,
- * publicly playable file URL (mp3, m4a, ogg, wav) into `src`. Empty `src` renders as "link pending".
+ * Voice and diction takes. `src` is either a direct, publicly playable file URL (mp3, m4a, ogg, wav)
+ * or a path under public/, e.g. 'audio/diction-01.mp3'. Empty `src` renders as "link pending".
  */
 export const audioTakes: AudioTake[] = [
   {

@@ -1,5 +1,6 @@
 ---
 import type { AudioTake } from '../data/audio';
+import { url } from '../lib/url';
 
 interface Props {
   take: AudioTake;
@@ -9,6 +10,7 @@ interface Props {
 const { take, index } = Astro.props;
 const num = String(index + 1).padStart(2, '0');
 const pending = !take.src;
+const src = /^https?:\/\//.test(take.src) ? take.src : url(take.src);
 ---
 
 <audio-player class="group grid grid-cols-[auto_1fr] items-center gap-x-5 gap-y-3 border-t border-line py-6 md:grid-cols-[3rem_auto_1fr_auto] md:gap-x-8" data-pending={pending ? '' : undefined}>
@@ -51,7 +53,7 @@ const pending = !take.src;
     aria-label="Playback speed"
     class="col-start-2 justify-self-start font-mono text-[0.7rem] tracking-[0.2em] text-ash transition enabled:hover:text-brass disabled:opacity-40 md:col-start-auto md:justify-self-end"
   >1.0×</button>
-  {!pending && <audio preload="metadata" src={take.src}></audio>}
+  {!pending && <audio preload="metadata" src={src}></audio>}
 </audio-player>
 
 <style>

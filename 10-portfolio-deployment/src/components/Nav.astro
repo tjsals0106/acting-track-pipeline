@@ -6,7 +6,7 @@ const items = [
   { label: 'Reels', href: url('/#reels') },
   { label: 'Scripts', href: url('/scripts/') },
   { label: 'Voice', href: url('/#voice') },
-  { label: 'Contact', href: url('/#contact') },
+  { label: 'Contact', href: url('/#contact'), wide: true },
 ];
 ---
 
@@ -17,8 +17,22 @@ const items = [
     </a>
     <ul class="flex gap-4 font-mono text-[0.62rem] uppercase tracking-[0.15em] text-ash sm:gap-5 sm:text-[0.7rem] sm:tracking-[0.25em] md:gap-8">
       {items.map((i) => (
-        <li><a href={i.href} class="transition-colors hover:text-bone">{i.label}</a></li>
+        <li class={i.wide ? 'hidden sm:list-item' : undefined}><a href={i.href} class="transition-colors hover:text-bone">{i.label}</a></li>
       ))}
+      <li>
+        <button id="theme-toggle" type="button" aria-label="Toggle light or dark theme" class="transition-colors hover:text-bone">
+          <span class="hidden dark:inline">Light</span><span class="dark:hidden">Dark</span>
+        </button>
+      </li>
     </ul>
   </nav>
 </header>
+
+<script>
+  document.getElementById('theme-toggle')?.addEventListener('click', () => {
+    const dark = document.documentElement.classList.toggle('dark');
+    try {
+      localStorage.setItem('theme', dark ? 'dark' : 'light');
+    } catch {}
+  });
+</script>
