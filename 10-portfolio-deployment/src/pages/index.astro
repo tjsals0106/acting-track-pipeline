@@ -1,75 +1,50 @@
 ---
-import Base from '../layouts/Base.astro';
-import Nav from '../components/Nav.astro';
-import Hero from '../components/Hero.astro';
-import ReelCard from '../components/ReelCard.astro';
-import AudioPlayer from '../components/AudioPlayer.astro';
-import { profile, reels, audioReel } from '../data/profile';
-import { loadScripts } from '../lib/scripts';
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-const scripts = loadScripts();
+import Layout from '../layouts/Layout.astro';
+
+const tracks = [
+  { n: '01', name: 'Monologue Scripts', href: 'https://github.com/tjsals0106/acting-track-pipeline/tree/main/01-monologue-scripts' },
+  { n: '02', name: 'Voice and Diction Log', href: 'https://github.com/tjsals0106/acting-track-pipeline/tree/main/02-voice-diction-log' },
+  { n: '03', name: 'Audition Reel Pipeline', href: 'https://github.com/tjsals0106/acting-track-pipeline/tree/main/03-audition-reel-pipeline' },
+  { n: '04', name: 'Character Arc Analysis', href: 'https://github.com/tjsals0106/acting-track-pipeline/tree/main/04-character-arc-analysis' },
+  { n: '05', name: 'Audition Tracker', href: 'https://github.com/tjsals0106/acting-track-pipeline/tree/main/05-audition-tracker' },
+  { n: '06', name: 'Body and Movement Notes', href: 'https://github.com/tjsals0106/acting-track-pipeline/tree/main/06-body-movement-notes' },
+  { n: '07', name: 'Scene Study', href: 'https://github.com/tjsals0106/acting-track-pipeline/tree/main/07-scene-study' },
+  { n: '08', name: 'Acting Methods Reference', href: 'https://github.com/tjsals0106/acting-track-pipeline/tree/main/08-acting-methods-reference' },
+  { n: '09', name: 'Performance Review Log', href: 'https://github.com/tjsals0106/acting-track-pipeline/tree/main/09-performance-review-log' },
+  { n: '10', name: 'Portfolio and Deployment', href: 'https://github.com/tjsals0106/acting-track-pipeline/tree/main/10-portfolio-deployment' },
+];
 ---
-<Base title={`${profile.name} · ${profile.role}`}>
-  <Nav />
-  <main>
-    <Hero />
 
-    <section id="reel" class="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
-      <h2 class="mb-12 font-serif text-4xl sm:text-5xl">Monologue reel</h2>
-      <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
-        {reels.map((r) => <ReelCard {...r} />)}
-      </div>
-    </section>
+<Layout title="Acting Portfolio">
+  <main class="mx-auto max-w-3xl px-6 py-16">
+    <header class="mb-12">
+      <p class="text-sm uppercase tracking-widest text-amber-400">Acting and Monologue Track</p>
+      <h1 class="mt-3 text-4xl font-semibold">Portfolio</h1>
+      <p class="mt-4 text-stone-300">
+        Monologue work, voice and diction practice, audition reels, and performance reviews,
+        kept as a daily 10-minute practice record.
+      </p>
+    </header>
 
-    <section id="scripts" class="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
-      <h2 class="mb-3 font-serif text-4xl sm:text-5xl">Script archive</h2>
-      <p class="mb-12 max-w-xl text-sm opacity-60">Practice monologues: originals written for the study track, plus full text of public-domain speeches by Shakespeare (Cambridge Edition, 1863-66), Marlowe (Dyce edition), and Spanish classics from 19th-century editions (Calderón, Lope de Vega, Moratín, Zorrilla), a Calderón zarzuela aria and Gilbert and Sullivan, with sources and rights notes. Also links to selected scripts that remain in copyright.</p>
-      <ul class="divide-y divide-current/10 border-y border-current/10">
-        {scripts.map((s, i) => (
-          <li>
-            <a href={`${base}/scripts/${s.slug}/`} class="group flex flex-col gap-2 py-6 sm:flex-row sm:items-baseline sm:gap-8">
-              <span class="w-10 text-xs tabular-nums opacity-40">{String(i + 1).padStart(2, '0')}</span>
-              <span class="flex-1 font-serif text-2xl transition group-hover:text-ember">{s.title}</span>
-              <span class="text-xs opacity-60">{s.meta.find((m) => m.startsWith('Character'))?.replace('Character: ', '')}</span>
-            </a>
+    <section>
+      <h2 class="mb-4 text-xl font-semibold">The 10 tracks</h2>
+      <ul class="divide-y divide-stone-800 border-y border-stone-800">
+        {tracks.map((t) => (
+          <li class="flex items-center gap-4 py-3">
+            <span class="w-8 font-mono text-amber-400">{t.n}</span>
+            <a class="hover:text-amber-300" href={t.href} target="_blank" rel="noreferrer">{t.name}</a>
           </li>
         ))}
       </ul>
     </section>
 
-    <section id="voice" class="mx-auto max-w-4xl scroll-mt-20 px-6 py-24">
-      <h2 class="mb-3 font-serif text-4xl sm:text-5xl">Voice and diction</h2>
-      <p class="mb-10 max-w-xl text-sm opacity-60">Short voice logs and diction drills.</p>
-      <AudioPlayer tracks={audioReel} />
+    <section class="mt-12">
+      <h2 class="mb-4 text-xl font-semibold">Reels and media</h2>
+      <p class="text-stone-400">Reel and monologue video links will be added here when they are final.</p>
     </section>
 
-    <section id="contact" class="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
-      <h2 class="mb-8 font-serif text-4xl sm:text-5xl">Contact</h2>
-      <ul class="grid gap-4 text-sm sm:grid-cols-2">
-        {profile.links.map((l) => (
-          <li class="flex items-baseline justify-between border-b border-current/10 pb-3">
-            <span class="opacity-60">{l.note}</span>
-            {l.href ? <a class="hover:text-ember" href={l.href} rel="noopener">{l.label}</a> : <span class="opacity-40">{l.label}: placeholder</span>}
-          </li>
-        ))}
-      </ul>
-    </section>
+    <footer class="mt-16 text-sm text-stone-500">
+      Source: <a class="underline" href="https://github.com/tjsals0106/acting-track-pipeline" target="_blank" rel="noreferrer">github.com/tjsals0106/acting-track-pipeline</a>
+    </footer>
   </main>
-  <footer class="px-6 py-10 text-center text-xs opacity-40">© {new Date().getFullYear()} {profile.name}</footer>
-
-  <script>
-    document.querySelectorAll<HTMLElement>('.reel').forEach((el) => {
-      const id = el.dataset.id;
-      if (!id) return;
-      el.querySelector('.reel-play')?.addEventListener('click', () => {
-        const f = document.createElement('iframe');
-        f.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
-        f.title = el.dataset.title || 'Video';
-        f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
-        f.allowFullscreen = true;
-        f.className = 'absolute inset-0 h-full w-full';
-        el.replaceChildren(f);
-      });
-    });
-  </script>
-</Base>
+</Layout>

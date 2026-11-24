@@ -1,0 +1,22 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Acting and monologue portfolio' } = Astro.props;
+import '../styles/global.css';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body class="bg-stone-950 text-stone-100 antialiased">
+    <slot />
+  </body>
+</html>

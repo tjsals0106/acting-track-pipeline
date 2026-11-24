@@ -1,16 +1,10 @@
 import { defineConfig } from 'astro/config';
-import tailwindcss from '@tailwindcss/vite';
+import tailwind from '@astrojs/tailwind';
 
-// GitHub Pages project site: https://<owner>.github.io/<repo>/
-const site = process.env.SITE_URL || 'https://tjsals0106.github.io';
-const base = process.env.SITE_BASE || '/acting-track-pipeline';
-
+// SITE_URL and SITE_BASE are set by the GitHub Actions workflow.
+// Locally they fall back to a root-relative dev setup.
 export default defineConfig({
-  site,
-  base,
-  output: 'static',
-  vite: {
-    plugins: [tailwindcss()],
-    server: { fs: { allow: ['..'] } },
-  },
+  site: process.env.SITE_URL || 'http://localhost:4321',
+  base: process.env.SITE_BASE || '/',
+  integrations: [tailwind()],
 });
