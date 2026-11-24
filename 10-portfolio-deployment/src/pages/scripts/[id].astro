@@ -22,7 +22,7 @@ const meta = scriptMeta(entry);
 const nextMeta = scriptMeta(next);
 const { Content, headings } = await render(entry);
 const toc = headings.filter((h) => h.depth === 2);
-const facts = Object.entries(meta.fields).filter(([k]) => !['range'].includes(k));
+const facts = Object.entries(meta.fields);
 ---
 
 <Base title={meta.title} description={meta.situation ?? meta.title}>
@@ -59,7 +59,6 @@ const facts = Object.entries(meta.fields).filter(([k]) => !['range'].includes(k)
               <li><a href={`#${h.slug}`} class="hover:text-bone">{h.text}</a></li>
             ))}
           </ol>
-          {meta.range && <p class="mt-10 border-t border-line pt-6 text-xs leading-relaxed text-smoke">{meta.range}</p>}
         </nav>
       </aside>
       <div class="prose-script md:col-span-8 md:col-start-4 lg:col-span-7 lg:col-start-4">
