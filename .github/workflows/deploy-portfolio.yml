@@ -1,0 +1,61 @@
+name: Deploy portfolio
+
+on:
+  pull_request:
+    paths:
+      - '10-portfolio-deployment/**'
+      - '01-monologue-scripts/**'
+      - '.github/workflows/deploy-portfolio.yml'
+  push:
+    branches: [main]
+    paths:
+      - '10-portfolio-deployment/**'
+      - '01-monologue-scripts/**'
+      - '.github/workflows/deploy-portfolio.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 10-portfolio-deployment
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: 10-portfolio-deployment/package-lock.json
+
+      - run: npm ci --no-audit --no-fund
+
+      - run: npm run build
+        env:
+          SITE_URL: https://${{ github.repository_owner }}.github.io
+          SITE_BASE: /${{ github.event.repository.name }}
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: 10-portfolio-deployment/dist
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
