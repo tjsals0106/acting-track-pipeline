@@ -1,38 +1,67 @@
 # Acting & Monologue Track Pipeline
 
-A study pipeline for an acting and monologue track. It has 10 tracks, each in its own directory, plus a daily 10-minute routine and notes on connecting it to Notion.
+A study pipeline for an acting and monologue track. Ten track directories hold the working material. One short daily session ties them together.
+
+## Purpose
+
+Build range, specificity, and consistency as a performer through a small, repeatable daily practice. The repo is the record. Notion is the daily dashboard.
 
 ## The 10 Tracks
 
-01-monologue-scripts: Script text for each monologue, with source, character, and cut notes.
-02-voice-diction-log: Voice, breath, and diction exercises with dates and observations.
-03-audition-reel-pipeline: Clip selection, edit versions, and export status for audition reels.
-04-character-arc-analysis: Character objectives, obstacles, and arc breakdowns per role.
-05-audition-tracker: Submitted auditions with dates, casting contacts, status, and follow-up.
-06-body-movement-notes: Physical work, posture, movement ideas, and tension notes.
-07-scene-study: Partner scenes, beats, and rehearsal notes.
-08-acting-methods-reference: Notes on techniques and methods (Meisner, Stanislavski, Uta Hagen, and others).
-09-performance-review-log: Feedback received from coaches, peers, and self-reviews after each run.
-10-portfolio-deployment: Final portfolio materials, reel links, headshots, and publishing checklist.
+| Dir | Track | Contents |
+|---|---|---|
+| 01-monologue-scripts | Monologue scripts | Script text, template, beat analysis (template.md and samples) |
+| 02-voice-diction-log | Voice and diction | Daily routine guide and log template (routine.md, template.md) |
+| 03-audition-reel-pipeline | Audition reels | Clip selection, edit versions, export status |
+| 04-character-arc-analysis | Character arcs | Objectives, obstacles, and arc breakdowns per role |
+| 05-audition-tracker | Audition tracker | Submissions, casting contacts, status, follow-up dates |
+| 06-body-movement-notes | Body and movement | Physical work, posture, tension notes |
+| 07-scene-study | Scene study | Partner scenes, beats, rehearsal notes |
+| 08-acting-methods-reference | Methods reference | One file per technique or method |
+| 09-performance-review-log | Performance reviews | Feedback from self, coaches, and peers |
+| 10-portfolio-deployment | Portfolio | Final reel links, headshots, publish checklist |
 
-## Daily 10-Minute Routine
+## Daily Practice: 10 Minutes, Hard Limit
 
-1. Minute 0 to 2: Pick one monologue from 01-monologue-scripts. Read it aloud once, with no performing.
-2. Minute 2 to 4: Warm up with 02-voice-diction-log exercises, such as a lip trill, a tongue twister, and a breath count.
-3. Minute 4 to 7: Run the monologue once. Name the objective and the emotion for each beat.
-4. Minute 7 to 8: Record a 30-second audio or video take if useful. Save the file link in the daily log.
-5. Minute 8 to 10: Write a short reflection: what worked, what to change tomorrow. Add it to 09-performance-review-log.
+Each day has one session of exactly 10 minutes. Use a timer.
 
-Log each session with the date, monologue title, emotion or objective, audio or notes link, and reflection. The Notion Daily 10-min Log uses these same fields.
+1. Minute 0 to 2: Read one monologue from 01-monologue-scripts aloud, once, without performing.
+2. Minute 2 to 4: Vocal warmup from 02-voice-diction-log/routine.md (breath, phonation, articulation).
+3. Minute 4 to 7: Run the monologue once. Say the objective and the tactic for each beat out loud.
+4. Minute 7 to 8: Optional 30-second take. Save the link, not the file.
+5. Minute 8 to 10: Write the log entry in 02-voice-diction-log and a 3-line reflection in 09-performance-review-log.
 
-## Integration Instructions
+The timer stops the session. If a session ends early, log it as short. Do not extend it.
 
-- Notion: The Acting & Monologue Studio page holds the Daily 10-min Log, the Script Backlog and Archive, and quick links to this repo. Paste the audio or notes link from each session into the Audio/Notes field.
-- Audio and video: Keep large files in cloud storage. Store only the link in the repo or Notion.
-- Audition tracking: Update 05-audition-tracker each time you submit or hear back. Keep the status values consistent: Submitted, Callback, Booked, Passed, No response.
-- Weekly review: Every Sunday, read the last 7 entries in 09-performance-review-log and move one lesson into 08-acting-methods-reference.
-- Portfolio: When a reel or monologue is final, put its link in 10-portfolio-deployment.
+## Anti-Yak-Shaving Guardrail
 
-## Folder Conventions
+The pipeline supports the practice. It is not the practice. Before editing any file, ask: does this change help me act tomorrow?
 
-Each track folder has a README.md with its own template. Name files by date in YYYY-MM-DD format, for example 2026-11-24-session.md.
+- Do not spend a session on folder structure, tooling, colors, or formatting.
+- Do not rewrite a template more than once a month.
+- Do not start a new track directory until the existing ten have been used for at least 30 days.
+- If a task takes more than 15 minutes outside the daily session, write it as a line in the reflection and move on.
+
+## Commit Conventions
+
+Use short, prefixed, imperative messages:
+
+- log: a daily session entry, for example `log: 2026-11-24 monologue beat work`
+- script: a monologue added or edited, for example `script: add explosive confrontation sample`
+- template: a template changed, for example `template: add tactic field to monologue template`
+- docs: README or reference change, for example `docs: add anti-yak-shaving rule`
+- audition: tracker or reel update, for example `audition: submit callback for lab role`
+
+One logical change per commit. Do not mix a log entry with a template change.
+
+## Integration
+
+- Notion: The Acting & Monologue Studio page holds the Daily 10-min Log (one row per session) and the Script Backlog / Archive. Paste the Audio / Notes link from each session into the Notion row.
+- Large media: Keep audio and video in cloud storage. Store only links here.
+- Audition status values: Submitted, Callback, Booked, Passed, No response.
+- Weekly review (Sunday): Read the last 7 entries in 09-performance-review-log. Move one lesson into 08-acting-methods-reference.
+- Portfolio: When a reel or monologue is final, add its link to 10-portfolio-deployment.
+
+## File Naming
+
+Dated entries use YYYY-MM-DD, for example `2026-11-24-session.md`. Monologue files use lowercase kebab-case, for example `cold-restraint-sample.md`.
