@@ -1,0 +1,48 @@
+# Macbeth: Is this a dagger
+
+- Character: Macbeth, Thane of Glamis
+- Situation: Alone at night in Inverness castle, on his way to murder the sleeping king.
+- Word count: about 267
+- Source: William Shakespeare, *Macbeth*, Act II, Scene I. Text from Project Gutenberg eBook #1533 (https://www.gutenberg.org/ebooks/1533), the volunteer-produced, modernized-spelling edition, copied unchanged.
+- Rights: Shakespeare died in 1616, so the play is out of copyright in Korea and the US. The text is Project Gutenberg's volunteer edition (modernized spelling), which Project Gutenberg lists as public domain in the US; its status as an edition in Korea was not separately checked. Text copied unchanged. No translation.
+- Status: Backlog
+
+## Text
+
+```text
+Is this a dagger which I see before me,
+The handle toward my hand? Come, let me clutch thee:—
+I have thee not, and yet I see thee still.
+Art thou not, fatal vision, sensible
+To feeling as to sight? or art thou but
+A dagger of the mind, a false creation,
+Proceeding from the heat-oppressed brain?
+I see thee yet, in form as palpable
+As this which now I draw.
+Thou marshall’st me the way that I was going;
+And such an instrument I was to use.
+Mine eyes are made the fools o’ the other senses,
+Or else worth all the rest: I see thee still;
+And on thy blade and dudgeon, gouts of blood,
+Which was not so before.—There’s no such thing.
+It is the bloody business which informs
+Thus to mine eyes.—Now o’er the one half-world
+Nature seems dead, and wicked dreams abuse
+The curtain’d sleep. Witchcraft celebrates
+Pale Hecate’s off’rings; and wither’d murder,
+Alarum’d by his sentinel, the wolf,
+Whose howl’s his watch, thus with his stealthy pace,
+With Tarquin’s ravishing strides, towards his design
+Moves like a ghost.—Thou sure and firm-set earth,
+Hear not my steps, which way they walk, for fear
+Thy very stones prate of my whereabout,
+And take the present horror from the time,
+Which now suits with it.—Whiles I threat, he lives.
+Words to the heat of deeds too cold breath gives.
+
+[_A bell rings._]
+
+I go, and it is done. The bell invites me.
+Hear it not, Duncan, for it is a knell
+That summons thee to heaven or to hell.
+```
