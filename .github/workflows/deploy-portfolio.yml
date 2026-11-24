@@ -1,6 +1,11 @@
 name: Deploy portfolio
 
 on:
+  pull_request:
+    paths:
+      - '10-portfolio-deployment/**'
+      - '01-monologue-scripts/**'
+      - '.github/workflows/deploy-portfolio.yml'
   push:
     branches: [main]
     paths:
@@ -30,8 +35,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
+          cache-dependency-path: 10-portfolio-deployment/package-lock.json
 
-      - run: npm install --no-audit --no-fund
+      - run: npm ci --no-audit --no-fund
 
       - run: npm run build
         env:
@@ -43,6 +50,7 @@ jobs:
           path: 10-portfolio-deployment/dist
 
   deploy:
+    if: github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-latest
     environment:
