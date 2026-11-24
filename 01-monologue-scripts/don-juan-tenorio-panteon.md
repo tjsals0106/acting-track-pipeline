@@ -16,7 +16,7 @@ entera la hacienda mía;
 hizo bien; yo al otro dia
 la hubiera á una carta puesto.
 No os podréis quejar de mí,
-vosotros á quien maté; • ,
+vosotros á quien maté;
 si buena vida os quité,
 buena sepultura os di.
 Magnifica es en verdad
@@ -94,7 +94,7 @@ Este mármol sepulcral
 adormece mi vigor,
 y sentir creo en redor
 un sér Sobrenatural.
-Mas . ¡cielos! ¡El pedestal
+Mas... ¡cielos! ¡El pedestal
 no mantiene su escultura!
 ¿Qué es esto? ¿Aquella figura
 fué creación de mi afán?
