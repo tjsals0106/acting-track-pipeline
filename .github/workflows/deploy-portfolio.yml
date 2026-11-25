@@ -1,56 +1,60 @@
 name: Deploy portfolio
 
 on:
-  pull_request:
-    paths:
-      - '10-portfolio-deployment/**'
-      - '01-monologue-scripts/**'
-      - '.github/workflows/deploy-portfolio.yml'
   push:
     branches: [main]
     paths:
       - '10-portfolio-deployment/**'
       - '01-monologue-scripts/**'
       - '.github/workflows/deploy-portfolio.yml'
+  pull_request:
+    paths:
+      - '10-portfolio-deployment/**'
+      - '01-monologue-scripts/**'
+      - '.github/workflows/deploy-portfolio.yml'
   workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
 concurrency:
-  group: pages
-  cancel-in-progress: true
+  group: deploy-portfolio-${{ github.ref }}
+  cancel-in-progress: false
+
+defaults:
+  run:
+    working-directory: 10-portfolio-deployment
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: 10-portfolio-deployment
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
+          cache-dependency-path: 10-portfolio-deployment/package-lock.json
 
-      - run: npm install --no-audit --no-fund
+      - run: npm ci
 
-      - run: npm run build
+      - name: Build
+        run: npm run build
         env:
           SITE_URL: https://${{ github.repository_owner }}.github.io
-          SITE_BASE: /${{ github.event.repository.name }}
+          BASE_PATH: /${{ github.event.repository.name }}
 
       - uses: actions/upload-pages-artifact@v3
         with:
           path: 10-portfolio-deployment/dist
 
   deploy:
-    if: github.event_name != 'pull_request'
     needs: build
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

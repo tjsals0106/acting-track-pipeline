@@ -1,0 +1,26 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { scriptMeta } from '../lib/scripts';
+import { url } from '../lib/url';
+
+interface Props {
+  entry: CollectionEntry<'scripts'>;
+  index: number;
+}
+
+const { entry, index } = Astro.props;
+const meta = scriptMeta(entry);
+---
+
+<a href={url(`/scripts/${entry.id}/`)} class="group grid gap-4 border-t border-line py-8 transition md:grid-cols-12 md:gap-8">
+  <span class="font-mono text-xs text-smoke md:col-span-1">{String(index + 1).padStart(2, '0')}</span>
+  <div class="md:col-span-5">
+    <h3 class="font-display text-3xl font-light tracking-tight transition group-hover:text-brass md:text-4xl">{meta.title}</h3>
+    {meta.character && <p class="mt-2 text-sm text-ash">{meta.character}</p>}
+  </div>
+  <div class="md:col-span-5">
+    {meta.situation && <p class="line-clamp-3 text-sm leading-relaxed text-ash">{meta.situation}</p>}
+    <p class="eyebrow mt-4 !text-smoke">{meta.range?.split('.')[0] ?? `${meta.words} words`} · {meta.minutes} min</p>
+  </div>
+  <span class="hidden text-right text-ash transition group-hover:translate-x-1 group-hover:text-brass md:col-span-1 md:block" aria-hidden="true">→</span>
+</a>

@@ -1,50 +1,62 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import ReelCard from '../components/ReelCard.astro';
+import ScriptCard from '../components/ScriptCard.astro';
+import AudioPlayer from '../components/AudioPlayer.astro';
+import { reels } from '../data/reels';
+import { audioTakes } from '../data/audio';
+import { url } from '../lib/url';
+import { sortScripts } from '../lib/scripts';
 
-const tracks = [
-  { n: '01', name: 'Monologue Scripts', href: 'https://github.com/tjsals0106/acting-track-pipeline/tree/main/01-monologue-scripts' },
-  { n: '02', name: 'Voice and Diction Log', href: 'https://github.com/tjsals0106/acting-track-pipeline/tree/main/02-voice-diction-log' },
-  { n: '03', name: 'Audition Reel Pipeline', href: 'https://github.com/tjsals0106/acting-track-pipeline/tree/main/03-audition-reel-pipeline' },
-  { n: '04', name: 'Character Arc Analysis', href: 'https://github.com/tjsals0106/acting-track-pipeline/tree/main/04-character-arc-analysis' },
-  { n: '05', name: 'Audition Tracker', href: 'https://github.com/tjsals0106/acting-track-pipeline/tree/main/05-audition-tracker' },
-  { n: '06', name: 'Body and Movement Notes', href: 'https://github.com/tjsals0106/acting-track-pipeline/tree/main/06-body-movement-notes' },
-  { n: '07', name: 'Scene Study', href: 'https://github.com/tjsals0106/acting-track-pipeline/tree/main/07-scene-study' },
-  { n: '08', name: 'Acting Methods Reference', href: 'https://github.com/tjsals0106/acting-track-pipeline/tree/main/08-acting-methods-reference' },
-  { n: '09', name: 'Performance Review Log', href: 'https://github.com/tjsals0106/acting-track-pipeline/tree/main/09-performance-review-log' },
-  { n: '10', name: 'Portfolio and Deployment', href: 'https://github.com/tjsals0106/acting-track-pipeline/tree/main/10-portfolio-deployment' },
-];
+const scripts = sortScripts(await getCollection('scripts'));
+const featured = scripts.slice(0, 6);
 ---
 
-<Layout title="Acting Portfolio">
-  <main class="mx-auto max-w-3xl px-6 py-16">
-    <header class="mb-12">
-      <p class="text-sm uppercase tracking-widest text-amber-400">Acting and Monologue Track</p>
-      <h1 class="mt-3 text-4xl font-semibold">Portfolio</h1>
-      <p class="mt-4 text-stone-300">
-        Monologue work, voice and diction practice, audition reels, and performance reviews,
-        kept as a daily 10-minute practice record.
-      </p>
-    </header>
+<Base>
+  <Hero />
 
-    <section>
-      <h2 class="mb-4 text-xl font-semibold">The 10 tracks</h2>
-      <ul class="divide-y divide-stone-800 border-y border-stone-800">
-        {tracks.map((t) => (
-          <li class="flex items-center gap-4 py-3">
-            <span class="w-8 font-mono text-amber-400">{t.n}</span>
-            <a class="hover:text-amber-300" href={t.href} target="_blank" rel="noreferrer">{t.name}</a>
-          </li>
-        ))}
-      </ul>
-    </section>
+  <section id="reels" class="mx-auto max-w-7xl scroll-mt-24 px-6 py-24 md:px-10 md:py-32" aria-labelledby="reels-title">
+    <SectionHeader
+      id="reels-title"
+      index="01"
+      eyebrow="Monologue reel"
+      title="Three registers, one take each."
+      lede="Short self-tapes from the daily practice. Each piece is cut to hold a single objective and a single turn."
+    />
+    <div class="grid gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-3">
+      {reels.map((reel, i) => <ReelCard reel={reel} index={i} />)}
+    </div>
+  </section>
 
-    <section class="mt-12">
-      <h2 class="mb-4 text-xl font-semibold">Reels and media</h2>
-      <p class="text-stone-400">Reel and monologue video links will be added here when they are final.</p>
-    </section>
+  <section id="scripts" class="border-t border-line bg-ink-2/60 scroll-mt-24" aria-labelledby="scripts-title">
+    <div class="mx-auto max-w-7xl px-6 py-24 md:px-10 md:py-32">
+      <SectionHeader
+        id="scripts-title"
+        index="02"
+        eyebrow="Script archive"
+        title="The text behind the take."
+        lede="Original practice monologues with spine and beat analysis, plus full-text public-domain speeches from the English and Spanish classical repertoire with sources and rights notes."
+      />
+      <div class="border-b border-line">
+        {featured.map((entry, i) => <ScriptCard entry={entry} index={i} />)}
+      </div>
+      <a href={url('/scripts/')} class="eyebrow mt-10 inline-block underline decoration-line underline-offset-8 hover:text-brass">Open the full archive · {scripts.length} scripts →</a>
+    </div>
+  </section>
 
-    <footer class="mt-16 text-sm text-stone-500">
-      Source: <a class="underline" href="https://github.com/tjsals0106/acting-track-pipeline" target="_blank" rel="noreferrer">github.com/tjsals0106/acting-track-pipeline</a>
-    </footer>
-  </main>
-</Layout>
+  <section id="voice" class="mx-auto max-w-7xl scroll-mt-24 px-6 py-24 md:px-10 md:py-32" aria-labelledby="voice-title">
+    <SectionHeader
+      id="voice-title"
+      index="03"
+      eyebrow="Voice & diction"
+      title="Breath, phonation, articulation."
+      lede="Raw takes from the vocal routine. Slow them down to hear the consonants."
+    />
+    <div class="border-b border-line md:ml-[25%]">
+      {audioTakes.map((take, i) => <AudioPlayer take={take} index={i} />)}
+    </div>
+  </section>
+</Base>

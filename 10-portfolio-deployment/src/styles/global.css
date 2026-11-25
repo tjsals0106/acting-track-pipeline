@@ -1,3 +1,111 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-display: 'Fraunces Variable', ui-serif, Georgia, 'Noto Serif KR', serif;
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, 'Noto Sans KR', sans-serif;
+  --font-mono: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  --color-ink: #0b0b0c;
+  --color-ink-2: #121214;
+  --color-ink-3: #1b1b1f;
+  --color-line: #2a2a2f;
+  --color-bone: #ece7df;
+  --color-ash: #9a958d;
+  --color-smoke: #6b6760;
+  --color-brass: #d6b77a;
+  --color-ember: #c2412d;
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+  :root:not(.dark) {
+    color-scheme: light;
+    --color-ink: #f3efe8;
+    --color-ink-2: #ebe6dd;
+    --color-ink-3: #e2dcd1;
+    --color-line: #d4cdc1;
+    --color-bone: #16151a;
+    --color-ash: #5c574f;
+    --color-smoke: #7a746b;
+    --color-brass: #8a6a2f;
+  }
+  html {
+    @apply bg-ink text-bone font-sans antialiased;
+    scroll-behavior: smooth;
+  }
+  ::selection {
+    @apply bg-brass text-ink;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-4 outline-brass;
+  }
+}
+
+@utility eyebrow {
+  @apply font-mono text-[0.7rem] uppercase tracking-[0.3em] text-ash;
+}
+
+@utility grain {
+  position: relative;
+  &::after {
+    content: '';
+    position: fixed;
+    inset: -50%;
+    pointer-events: none;
+    z-index: 60;
+    opacity: 0.06;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation: grain 1.2s steps(6) infinite;
+  }
+}
+
+@keyframes grain {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-3%, 2%); }
+  40% { transform: translate(2%, -3%); }
+  60% { transform: translate(-2%, -1%); }
+  80% { transform: translate(3%, 3%); }
+  100% { transform: translate(0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .grain::after { animation: none; }
+}
+
+.prose-script {
+  @apply prose prose-invert prose-lg max-w-none;
+  --tw-prose-body: var(--color-bone);
+  --tw-prose-headings: var(--color-bone);
+  --tw-prose-bold: var(--color-bone);
+  --tw-prose-bullets: var(--color-smoke);
+  --tw-prose-quotes: var(--color-bone);
+  --tw-prose-quote-borders: var(--color-brass);
+  --tw-prose-hr: var(--color-line);
+  --tw-prose-th-borders: var(--color-line);
+  --tw-prose-td-borders: var(--color-line);
+  --tw-prose-links: var(--color-brass);
+}
+.prose-script > :not(h2, h2 ~ *) { @apply hidden; }
+.prose-script > h2:first-of-type { @apply mt-12; }
+.prose-script h2 {
+  @apply font-display font-light text-3xl tracking-tight mt-20 mb-6 border-t border-line pt-10 scroll-mt-20;
+}
+.prose-script h3 { @apply font-mono text-xs uppercase tracking-[0.25em] text-brass mt-12; }
+.prose-script p { @apply leading-relaxed; }
+.prose-script ul { @apply text-base; }
+.prose-script #text ~ p:not(#text ~ h2 ~ p) {
+  @apply font-display text-2xl leading-[1.6] font-light;
+}
+.prose-script table { @apply font-mono text-xs; }
+.prose-script pre {
+  @apply m-0 mb-6 rounded-none border-l border-brass/60 bg-transparent py-1 pr-0 pl-6 font-display text-xl leading-[1.7] font-light text-bone md:text-2xl;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.prose-script pre code { @apply bg-transparent p-0 font-[inherit] text-inherit; white-space: inherit; }
+.prose-script li { overflow-wrap: anywhere; }

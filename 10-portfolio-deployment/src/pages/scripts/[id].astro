@@ -1,0 +1,98 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { scriptMeta, sortScripts } from '../../lib/scripts';
+import { url } from '../../lib/url';
+
+export async function getStaticPaths() {
+  const scripts = sortScripts(await getCollection('scripts'));
+  return scripts.map((entry, i) => ({
+    params: { id: entry.id },
+    props: { entry, next: scripts[(i + 1) % scripts.length] },
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<'scripts'>;
+  next: CollectionEntry<'scripts'>;
+}
+
+const { entry, next } = Astro.props;
+const meta = scriptMeta(entry);
+const nextMeta = scriptMeta(next);
+const { Content, headings } = await render(entry);
+const toc = headings.filter((h) => h.depth === 2);
+const facts = Object.entries(meta.fields);
+const linkify = (text: string) =>
+  text.split(/(https?:\/\/[^\s,)]+)/).map((part, i) => ({ part, href: i % 2 ? part.replace(/\.$/, '') : null }));
+---
+
+<Base title={meta.title} description={meta.situation ?? meta.title}>
+  <article class="mx-auto max-w-7xl px-6 pt-32 pb-24 md:px-10 md:pt-40">
+    <a href={url('/scripts/')} class="eyebrow hover:text-brass">← Script archive</a>
+
+    <header class="mt-10 grid gap-10 border-b border-line pb-14 md:grid-cols-12">
+      <div class="md:col-span-8">
+        {meta.label && <p class="eyebrow mb-6"><span class="text-brass">●</span> {meta.label}</p>}
+        <h1 class="font-display text-5xl font-light leading-[0.95] tracking-[-0.03em] md:text-8xl">{meta.title}</h1>
+        {meta.note && <p class="mt-6 text-sm text-smoke">{meta.note}</p>}
+        {meta.spine && <p class="mt-8 max-w-2xl font-display text-xl font-light italic leading-snug text-bone/85 md:text-2xl">{meta.spine}</p>}
+      </div>
+      <dl class="grid content-end gap-5 md:col-span-4">
+        {facts.map(([k, v]) => (
+          <div>
+            <dt class="eyebrow">{k}</dt>
+            <dd class="mt-1 text-sm leading-relaxed text-ash">{v}</dd>
+          </div>
+        ))}
+        <div>
+          <dt class="eyebrow">Length</dt>
+          <dd class="mt-1 text-sm text-ash">{meta.words} words · ~{meta.minutes} min</dd>
+        </div>
+      </dl>
+    </header>
+
+    <div class="mt-4 grid gap-12 md:grid-cols-12">
+      <aside class="hidden md:col-span-3 md:block">
+        <nav class="sticky top-28 pt-16" aria-label="Sections">
+          <p class="eyebrow mb-4">Contents</p>
+          <ol class="space-y-2 text-sm text-ash">
+            {toc.map((h) => (
+              <li><a href={`#${h.slug}`} class="hover:text-bone">{h.text}</a></li>
+            ))}
+            {meta.notes.length > 0 && <li><a href="#source-rights" class="hover:text-bone">Source &amp; rights</a></li>}
+          </ol>
+        </nav>
+      </aside>
+      <div class="prose-script md:col-span-8 md:col-start-4 lg:col-span-7 lg:col-start-4">
+        <Content />
+        {meta.notes.length > 0 && (
+          <section aria-labelledby="source-rights">
+            <h2 id="source-rights">Source &amp; rights</h2>
+            <dl class="not-prose space-y-6">
+              {meta.notes.map((n) => (
+                <div>
+                  <dt class="eyebrow !text-smoke">{n.label}</dt>
+                  <dd class="mt-2 text-sm leading-relaxed text-ash [overflow-wrap:anywhere]">
+                    {linkify(n.text).map(({ part, href }) =>
+                      href ? <a href={href} class="text-brass underline underline-offset-4" rel="noopener">{part}</a> : part,
+                    )}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        )}
+      </div>
+    </div>
+
+    {next.id !== entry.id && (
+      <a href={url(`/scripts/${next.id}/`)} class="group mt-24 block border-t border-line pt-10">
+        <p class="eyebrow">Next script</p>
+        <p class="mt-3 font-display text-4xl font-light tracking-tight transition group-hover:text-brass md:text-6xl">
+          {nextMeta.title} <span aria-hidden="true">→</span>
+        </p>
+      </a>
+    )}
+  </article>
+</Base>

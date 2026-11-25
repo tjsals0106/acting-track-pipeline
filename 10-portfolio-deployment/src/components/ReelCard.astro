@@ -1,23 +1,76 @@
 ---
-interface Props { title: string; character: string; youtubeId: string; year: string }
-const { title, character, youtubeId, year } = Astro.props;
-const thumb = youtubeId ? `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg` : '';
+import type { Reel } from '../data/reels';
+import { youtubeId } from '../lib/youtube';
+import { url } from '../lib/url';
+
+interface Props {
+  reel: Reel;
+  index: number;
+}
+
+const { reel, index } = Astro.props;
+const id = youtubeId(reel.youtube);
+const num = String(index + 1).padStart(2, '0');
 ---
-<article class="group">
-  <div class="reel relative aspect-video w-full overflow-hidden bg-black/60 ring-1 ring-current/10" data-id={youtubeId} data-title={title}>
-    {youtubeId ? (
-      <button type="button" class="reel-play absolute inset-0 h-full w-full" aria-label={`Play ${title}`}>
-        <img src={thumb} alt="" loading="lazy" class="h-full w-full object-cover opacity-80 transition group-hover:opacity-100" />
-        <span class="absolute inset-0 grid place-items-center">
-          <span class="grid h-16 w-16 place-items-center rounded-full border border-white/70 text-white backdrop-blur">▶</span>
-        </span>
-      </button>
+
+<article class="group flex flex-col">
+  <div class="relative aspect-video overflow-hidden bg-ink-3 ring-1 ring-line">
+    {id ? (
+      <yt-facade data-id={id} data-title={reel.title} class="absolute inset-0 block">
+        <button type="button" class="absolute inset-0 h-full w-full cursor-pointer" aria-label={`Play ${reel.title}`}>
+          <img
+            src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            class="absolute inset-0 h-full w-full object-cover opacity-70 grayscale transition duration-700 group-hover:scale-[1.03] group-hover:opacity-90 group-hover:grayscale-0"
+          />
+          <span class="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent"></span>
+          <span class="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-bone/60 bg-ink/40 backdrop-blur transition group-hover:scale-110 group-hover:border-brass group-hover:text-brass">
+            <svg viewBox="0 0 24 24" class="ml-1 h-5 w-5 fill-current" aria-hidden="true"><path d="M7 4.5v15l13-7.5z" /></svg>
+          </span>
+        </button>
+      </yt-facade>
     ) : (
-      <div class="absolute inset-0 grid place-items-center text-center text-xs uppercase tracking-[0.25em] text-white/50">
-        Reel coming soon<br /><span class="mt-2 block normal-case tracking-normal opacity-70">Add a YouTube ID in src/data/profile.ts</span>
+      <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-[repeating-linear-gradient(135deg,transparent_0_14px,rgba(255,255,255,0.02)_14px_15px)]">
+        <span class="font-display text-6xl font-light text-line">{num}</span>
+        <span class="eyebrow">Reel in edit</span>
       </div>
     )}
+    <span class="pointer-events-none absolute left-3 top-3 font-mono text-[0.65rem] tracking-[0.25em] text-bone/70">{num}</span>
+    {reel.runtime && (
+      <span class="pointer-events-none absolute right-3 top-3 font-mono text-[0.65rem] tracking-[0.2em] text-bone/70">{reel.runtime}</span>
+    )}
   </div>
-  <h3 class="mt-4 font-serif text-2xl">{title}</h3>
-  <p class="text-xs uppercase tracking-[0.2em] opacity-60">{character} · {year}</p>
+  <div class="mt-5 flex items-start justify-between gap-4">
+    <div>
+      <h3 class="font-display text-2xl font-light tracking-tight">{reel.title}</h3>
+      <p class="mt-1 text-sm text-ash">{reel.character}</p>
+      <p class="eyebrow mt-3 !text-smoke">{reel.register}</p>
+    </div>
+    {reel.script && (
+      <a href={url(`/scripts/${reel.script}/`)} class="shrink-0 font-mono text-[0.65rem] uppercase tracking-[0.25em] text-ash underline decoration-line underline-offset-4 hover:text-brass">
+        Script
+      </a>
+    )}
+  </div>
 </article>
+
+<script>
+  class YtFacade extends HTMLElement {
+    connectedCallback() {
+      this.querySelector('button')?.addEventListener('click', () => this.play(), { once: true });
+    }
+    play() {
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube-nocookie.com/embed/${this.dataset.id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
+      iframe.title = this.dataset.title ?? 'YouTube video';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.allowFullscreen = true;
+      iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+      iframe.className = 'absolute inset-0 h-full w-full';
+      this.replaceChildren(iframe);
+    }
+  }
+  if (!customElements.get('yt-facade')) customElements.define('yt-facade', YtFacade);
+</script>

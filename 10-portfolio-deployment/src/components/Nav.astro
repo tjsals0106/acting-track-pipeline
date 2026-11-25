@@ -1,22 +1,38 @@
 ---
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+import { profile } from '../data/profile';
+import { url } from '../lib/url';
+
+const items = [
+  { label: 'Reels', href: url('/#reels') },
+  { label: 'Scripts', href: url('/scripts/') },
+  { label: 'Voice', href: url('/#voice') },
+  { label: 'Contact', href: url('/#contact'), wide: true },
+];
 ---
-<header class="fixed inset-x-0 top-0 z-30 backdrop-blur bg-paper/70 dark:bg-ink/70">
-  <nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4 text-[10px] uppercase tracking-[0.15em] sm:text-xs sm:tracking-[0.2em]">
-    <a href={`${base}/`} class="hidden font-serif text-lg normal-case tracking-normal sm:block">Portfolio</a>
-    <div class="flex w-full items-center justify-between gap-3 sm:w-auto sm:justify-start sm:gap-6">
-      <a href={`${base}/#reel`} class="hover:text-ember">Reel</a>
-      <a href={`${base}/#scripts`} class="hover:text-ember">Scripts</a>
-      <a href={`${base}/#voice`} class="hover:text-ember">Voice</a>
-      <a href={`${base}/#contact`} class="hover:text-ember">Contact</a>
-      <button id="theme-toggle" type="button" aria-label="Toggle light or dark theme" class="border border-current/30 px-2 py-1 hover:border-ember hover:text-ember">Theme</button>
-    </div>
+
+<header class="fixed inset-x-0 top-0 z-40 border-b border-white/5 bg-ink/70 backdrop-blur-md">
+  <nav class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 sm:gap-6 sm:px-6 md:px-10" aria-label="Primary">
+    <a href={url('/')} class="min-w-0 truncate font-display text-lg tracking-tight">
+      {profile.name}<span class="text-brass">.</span>
+    </a>
+    <ul class="flex shrink-0 items-center gap-3 font-mono text-[0.62rem] uppercase tracking-[0.12em] text-ash sm:gap-5 sm:text-[0.7rem] sm:tracking-[0.25em] md:gap-8">
+      {items.map((i) => (
+        <li class={i.wide ? 'hidden sm:list-item' : undefined}><a href={i.href} class="transition-colors hover:text-bone">{i.label}</a></li>
+      ))}
+      <li>
+        <button id="theme-toggle" type="button" aria-label="Toggle light or dark theme" class="-my-2 py-2 transition-colors hover:text-bone">
+          <span class="hidden dark:inline">Light</span><span class="dark:hidden">Dark</span>
+        </button>
+      </li>
+    </ul>
   </nav>
 </header>
+
 <script>
   document.getElementById('theme-toggle')?.addEventListener('click', () => {
-    const root = document.documentElement;
-    const dark = root.classList.toggle('dark');
-    try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch {}
+    const dark = document.documentElement.classList.toggle('dark');
+    try {
+      localStorage.setItem('theme', dark ? 'dark' : 'light');
+    } catch {}
   });
 </script>

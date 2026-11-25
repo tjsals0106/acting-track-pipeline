@@ -1,26 +1,65 @@
 ---
 import { profile } from '../data/profile';
 ---
-<section class="relative flex min-h-screen items-end px-6 pb-20 pt-32">
-  <div class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_30%_20%,rgba(201,163,107,0.18),transparent_55%)] dark:opacity-100 opacity-40"></div>
-  <div class="mx-auto w-full max-w-6xl">
-    <p class="mb-6 text-xs uppercase tracking-[0.35em] text-ember">{profile.role} · {profile.based}</p>
-    <h1 class="font-serif text-6xl leading-[0.95] sm:text-8xl md:text-9xl">{profile.name}</h1>
-    <p class="mt-8 max-w-2xl font-serif text-2xl italic opacity-90 sm:text-3xl">{profile.headline}</p>
-    <p class="mt-6 max-w-xl text-sm leading-7 opacity-70">{profile.bio}</p>
-    <dl class="mt-10 grid max-w-2xl grid-cols-1 gap-6 text-sm sm:grid-cols-3">
-      {profile.details.map((d) => (
-        <div><dt class="text-xs uppercase tracking-[0.2em] opacity-50">{d.label}</dt><dd class="mt-1">{d.value}</dd></div>
-      ))}
-    </dl>
-    <div class="mt-12 flex flex-wrap gap-3 text-xs uppercase tracking-[0.2em]">
-      {profile.links.map((l) =>
-        l.href ? (
-          <a href={l.href} class="border border-current/40 px-4 py-3 hover:border-ember hover:text-ember" rel="noopener">{l.label}</a>
-        ) : (
-          <span class="border border-dashed border-current/25 px-4 py-3 opacity-50" title="Placeholder, add a link in src/data/profile.ts">{l.label} (placeholder)</span>
-        )
-      )}
+
+<section class="relative isolate overflow-hidden pt-28 md:pt-36" aria-labelledby="hero-title">
+  <div class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_70%_20%,rgba(214,183,122,0.12),transparent_55%),radial-gradient(ellipse_at_10%_90%,rgba(194,65,45,0.08),transparent_50%)]"></div>
+  <div class="mx-auto grid max-w-7xl gap-12 px-6 pb-20 md:grid-cols-12 md:px-10 md:pb-32">
+    <div class="md:col-span-8">
+      <p class="eyebrow mb-8"><span class="text-brass">●</span> {profile.role} — {profile.location}</p>
+      <h1 id="hero-title" class="font-display text-[clamp(3.5rem,11vw,10rem)] font-light leading-[0.88] tracking-[-0.04em]">
+        {profile.name}
+      </h1>
+      <p class="mt-10 max-w-xl font-display text-2xl font-light italic leading-snug text-bone/90 md:text-3xl">
+        {profile.headline}
+      </p>
+      <p class="mt-6 max-w-xl leading-relaxed text-ash">{profile.intro}</p>
+      <div class="mt-10 flex flex-wrap gap-3">
+        <a href="#reels" class="inline-flex items-center gap-3 bg-bone px-6 py-3 text-xs font-mono uppercase tracking-[0.25em] text-ink transition hover:bg-brass">
+          <span aria-hidden="true">▶</span> Watch reels
+        </a>
+        <a href="#contact" class="inline-flex items-center border border-line px-6 py-3 text-xs font-mono uppercase tracking-[0.25em] transition hover:border-bone">
+          Contact
+        </a>
+      </div>
     </div>
+
+    <aside class="flex flex-col justify-end gap-8 md:col-span-4" id="contact" aria-label="Profile and contact">
+      <dl class="grid grid-cols-3 gap-4 border-t border-line pt-6 md:grid-cols-1 md:gap-6">
+        {profile.stats.map((s) => (
+          <div>
+            <dt class="eyebrow">{s.label}</dt>
+            <dd class="mt-1 font-display text-xl font-light md:text-2xl">{s.value}</dd>
+          </div>
+        ))}
+      </dl>
+      <div class="border-t border-line pt-6">
+        {profile.representation.map((r) => (
+          <div class="mb-4">
+            <p class="eyebrow">{r.label}</p>
+            <p class="mt-1 text-bone">{r.name}</p>
+            <p class="text-sm text-ash">{r.detail}</p>
+          </div>
+        ))}
+        <ul class="flex flex-wrap gap-x-6 gap-y-2">
+          {profile.links.map((l) => (
+            <li>
+              {l.href ? (
+              <a
+                href={l.href}
+                class="group inline-flex items-center gap-2 text-sm text-bone underline decoration-line underline-offset-4 transition hover:decoration-brass"
+                {...(l.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+              >
+                {l.label}<span class="text-ash transition group-hover:translate-x-0.5 group-hover:text-brass" aria-hidden="true">↗</span>
+              </a>
+              ) : (
+                <span class="text-sm text-smoke" title="Placeholder: add a link in src/data/profile.ts">{l.label} (placeholder)</span>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </aside>
   </div>
+  <div class="h-px bg-gradient-to-r from-transparent via-line to-transparent"></div>
 </section>
