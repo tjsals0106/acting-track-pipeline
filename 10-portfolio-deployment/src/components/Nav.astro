@@ -6,7 +6,7 @@ const items = [
   { label: 'Reels', href: url('/#reels') },
   { label: 'Scripts', href: url('/scripts/') },
   { label: 'Voice', href: url('/#voice') },
-  { label: 'Contact', href: url('/#contact'), wide: true },
+  { label: 'Contact', href: url('/#contact') },
 ];
 ---
 
@@ -17,7 +17,7 @@ const items = [
     </a>
     <ul class="flex shrink-0 items-center gap-3 font-mono text-[0.62rem] uppercase tracking-[0.12em] text-ash sm:gap-5 sm:text-[0.7rem] sm:tracking-[0.25em] md:gap-8">
       {items.map((i) => (
-        <li class={i.wide ? 'hidden sm:list-item' : undefined}><a href={i.href} class="transition-colors hover:text-bone">{i.label}</a></li>
+        <li><a href={i.href} class="transition-colors hover:text-bone">{i.label}</a></li>
       ))}
       <li>
         <button id="theme-toggle" type="button" aria-label="Toggle light or dark theme" class="-my-2 py-2 transition-colors hover:text-bone">
