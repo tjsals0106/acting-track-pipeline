@@ -19,5 +19,10 @@ const scripts = sortScripts(await getCollection('scripts'));
     <div class="border-b border-line">
       {scripts.map((entry, i) => <ScriptCard entry={entry} index={i} />)}
     </div>
+    <a
+      href="https://github.com/tjsals0106/acting-track-pipeline/blob/main/01-monologue-scripts/links-copyrighted-scripts.md"
+      class="eyebrow mt-10 inline-block underline decoration-line underline-offset-8 hover:text-brass"
+      rel="noopener"
+    >In-copyright scripts: links only →</a>
   </section>
 </Base>
